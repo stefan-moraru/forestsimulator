@@ -11,7 +11,15 @@ class App extends React.Component {
 
     const entities = Utils.getEntities();
 
-    const entitiesPercentage = [
+    const entitiesPercentage1 = [
+      { entity: 'Lumberjack', percentage: 1 }
+    ];
+
+    const entitiesPercentage2 = [
+      { entity: 'Tree', percentage: 1, state: { age: 120 } }
+    ];
+
+    const entitiesPercentage3 = [
       { entity: 'Tree', percentage: 35, state: { age: 12 }},
       { entity: 'Tree', percentage: 10, state: { age: 0 }},
       { entity: 'Tree', percentage: 5, state: { age: 120 }},
@@ -19,13 +27,11 @@ class App extends React.Component {
       { entity: 'Bear', percentage: 4 }
     ];
 
-    const entitiesPercentage1 = [
-      { entity: 'Tree', percentage: 1, state: { age: 120 } }
-    ];
-
     const ecosystems = [
-      <Ecosystem id='1' n='3' m='3' entitiesPercentage={entitiesPercentage1} />//,
-      //<Ecosystem id='2' n='10' m='10' entitiesPercentage={entitiesPercentage} ageSpeed={10} />
+      // TODO: Generate ids
+      <Ecosystem id='1' n='3' m='3' entitiesPercentage={entitiesPercentage1} ageSpeed={3000} />,
+      //<Ecosystem id='2' n='3' m='3' entitiesPercentage={entitiesPercentage2} />,
+      //<Ecosystem id='3' n='10' m='10' entitiesPercentage={entitiesPercentage3} ageSpeed={10000} />
     ];
 
     return (

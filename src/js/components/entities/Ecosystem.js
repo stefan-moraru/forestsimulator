@@ -60,78 +60,93 @@ class Ecosystem extends React.Component {
     const m = 3;
     const entities = Utils.getEntities();
 
+    // Event handler
+    const handleEvents = (events, indexRow, indexColumn, item) => {
+
+      events.forEach(event => {
+        //console.log('Captured event');
+        //console.log(event);
+
+        // Delete entity
+        if (event.type === 'delete') {
+          map[indexRow][indexColumn] = null;
+
+          map[indexRow][indexColumn] = new entities['Empty'];
+        }
+
+        // Move entity
+        if (event.type === 'move') {
+
+          const x = indexRow + event.direction.x;
+          const y = indexColumn + event.direction.y;
+
+          // function: positionIsSafe
+          if (x >= 0 && y >= 0 && x < m && y < n) {
+
+            // Get entity from the new position
+            const nextEntity = map[x][y];
+
+            // Current entity = item
+            const eventType = `onEncounterWith${nextEntity.type}`;
+              console.log('Will check ', eventType);
+
+            if (item[eventType]) {
+              handleEvents(item[eventType](), indexRow, indexColumn, item);
+            }
+
+          }
+
+        }
+
+        // Create new entity with state
+        if (event.type === 'create') {
+
+          const entity = new entities[event.entity];
+
+          entity.init(event.state);
+
+          // Check neighbours
+          // [indexRow, indexColumn]
+          const directions = Utils.getMoveDirections();
+
+          let added = false;
+
+          directions.forEach(direction => {
+
+            const x = indexRow + direction.x;
+            const y = indexColumn + direction.y;
+
+            if (x >= 0 && y >= 0 && x < m && y < n) {
+
+            if (added === false && map[x][y] && map[x][y].canBeOverwritten === true) {
+
+              added = true;
+
+              map[x][y] = entity;
+            }
+
+            }
+          });
+
+
+        }
+
+      });
+
+    };
+
     map.forEach((row, indexRow) => {
 
       row.forEach((item, indexColumn) => {
 
-        /* Progress item */
+        /*
+          Progress item
+          No state => Empty tile
+        */
 
-        // No state => Empty tile
-        if (item.state) {
+        if (item.state && item.onChangeAge) {
 
-          if (item.onChangeAge) {
-
-            item.onChangeAge(item.state.age + 1).forEach(event => {
-
-              // Event handler
-              console.log('Captured event');
-              console.log(event);
-
-              // Delete entity
-              if (event.type === 'delete') {
-                map[indexRow][indexColumn] = null;
-
-                map[indexRow][indexColumn] = new entities['Empty'];
-              }
-
-              // Create new entity with state
-              if (event.type === 'create') {
-
-                const entity = new entities[event.entity];
-
-                entity.init(event.state);
-
-                // Check neighbours
-                // [indexRow, indexColumn]
-                const directions = [
-                  { x: -1, y: 1 },
-                  { x: 0, y: 1 },
-                  { x: 1, y: 1 },
-
-                  { x: -1, y: 0 },
-                  { x: 0, y: 0 },
-                  { x: 1, y: 0 },
-
-                  { x: -1, y: -1 },
-                  { x: 0, y: -1 },
-                  { x: 1, y: -1 }
-                ];
-
-                let added = false;
-
-                directions.forEach(direction => {
-
-                  const x = indexRow + direction.x;
-                  const y = indexColumn + direction.y;
-
-                  if (x >= 0 && y >= 0 && x < m && y < n) {
-
-                  if (added === false && map[x][y] && map[x][y].canBeOverwritten === true) {
-
-                    added = true;
-
-                    map[x][y] = entity;
-                  }
-
-                  }
-                });
-
-
-              }
-
-            });
-
-          }
+          handleEvents(item.onChangeAge(item.state.age + 1), indexRow, indexColumn, item);
 
         }
 

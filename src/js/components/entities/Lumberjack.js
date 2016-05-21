@@ -35,7 +35,7 @@ module.exports = function() {
       // TODO: Ignored by the parent
       events.push({
         type: 'move',
-        direction: Utils.random(0, 7)
+        direction: Utils.getMoveDirections()[Utils.random(0, 7)]
       });
 
     }

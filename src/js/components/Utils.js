@@ -1,6 +1,23 @@
 const React = require('react');
 const _ = require('lodash');
 
+const getMoveDirections = () => {
+
+  return [
+    { x: -1, y: 1 },
+    { x: 0, y: 1 },
+    { x: 1, y: 1 },
+
+    { x: -1, y: 0 },
+    { x: 1, y: 0 },
+
+    { x: -1, y: -1 },
+    { x: 0, y: -1 },
+    { x: 1, y: -1 }
+  ];
+
+};
+
 const getEntities = () => {
 
     return {
@@ -51,14 +68,7 @@ const generateMap = (n = 50, m = 70, entitiesPercentage = []) => {
   console.log(tree.onChangeAge(15));
 
 
-  tiles[0][0] = new entities['tree'];
-  tiles[0][1] = new entities['lumberjack'];
-  tiles[0][2] = new entities['bear'];
-  tiles[1][0] = new entities['empty'];
-  tiles[1][1] = new entities['empty'];
-  tiles[1][2] = new entities['empty'];
-
-  return tiles; */
+  */
 
   const tileCount = n * m;
 
@@ -69,6 +79,18 @@ const generateMap = (n = 50, m = 70, entitiesPercentage = []) => {
   for (i = 0; i < n; i++) {
     tiles[i] = [];
   }
+
+  tiles[0][0] = new entities['Tree'];
+  tiles[0][1] = new entities['Empty'];
+  tiles[0][2] = new entities['Empty'];
+  tiles[1][0] = new entities['Empty'];
+  tiles[1][1] = new entities['Lumberjack'];
+  tiles[1][2] = new entities['Empty'];
+  tiles[2][0] = new entities['Empty'];
+  tiles[2][1] = new entities['Empty'];
+  tiles[2][2] = new entities['Empty'];
+
+  return tiles;
 
   let pool = [];
 
@@ -122,7 +144,8 @@ const Utils = {
   generateMap: generateMap,
   hadChance: hadChance,
   random: _.random,
-  getEntities: getEntities
+  getEntities: getEntities,
+  getMoveDirections: getMoveDirections
 };
 
 module.exports = Utils;
