@@ -9,11 +9,28 @@ class App extends React.Component {
 
   render() {
 
+    const entities = Utils.getEntities();
+
+    const entitiesPercentage = [
+      { entity: 'Tree', percentage: 35, state: { age: 12 }},
+      { entity: 'Tree', percentage: 10, state: { age: 0 }},
+      { entity: 'Tree', percentage: 5, state: { age: 120 }},
+      { entity: 'Lumberjack', percentage: 10 },
+      { entity: 'Bear', percentage: 4 }
+    ];
+
+    const entitiesPercentage1 = [
+      { entity: 'Tree', percentage: 1, state: { age: 10 } }
+    ];
+
+    const ecosystems = [
+      <Ecosystem id='1' n='3' m='3' entitiesPercentage={entitiesPercentage1} />//,
+      //<Ecosystem id='1' n='10' m='10' entitiesPercentage={entitiesPercentage} />
+    ];
+
     return (
       <div>
-        <h4>This is our first ecoystem</h4>
-
-        <Ecosystem n='10' m='10' />
+        { ecosystems }
       </div>
     );
 
