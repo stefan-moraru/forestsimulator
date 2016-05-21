@@ -75,9 +75,19 @@ module.exports = function() {
 
   this.render = () => {
 
+    let image = '';
+
+    if (this.state.treeType === 'sapling') {
+      image = 'tree_small.bmp';
+    } else if (this.state.treeType === 'tree') {
+      image = 'tree_medium.bmp';
+    } else if (this.state.treeType === 'elder') {
+      image = 'tree_big.bmp';
+    }
+
     return (
       <div>
-        TREE
+        <img src={`./images/${image}`} />
       </div>
     );
 

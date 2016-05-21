@@ -54,7 +54,7 @@ module.exports = function() {
 
     return (
       <div>
-        Bear
+        <img src={'./images/bear.bmp'} />
       </div>
     );
 

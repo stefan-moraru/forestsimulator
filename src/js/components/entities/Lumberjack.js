@@ -67,7 +67,7 @@ module.exports = function() {
 
     return (
       <div>
-        Lumberjack
+        <img src={'./images/leprechaun.bmp'} />
       </div>
     );
 

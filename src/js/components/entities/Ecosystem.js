@@ -70,11 +70,17 @@ class Ecosystem extends React.Component {
 
     }
 
+    const style = {
+      'background-image': `url('./images/grass1.bmp')`
+    };
+
     return (
-      <div>
+      <div className='ecosystem'>
         <h4>Ecosystem (age: {age})</h4>
 
-        { rendered }
+        <div className='forest' style={style}>
+          { rendered }
+        </div>
       </div>
     );
 
