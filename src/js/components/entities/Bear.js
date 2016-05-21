@@ -2,7 +2,10 @@ const React = require('react');
 const Utils = require('../Utils');
 
 const config = {
-  maxMoves: 5
+  maxMoves: 5,
+  chanceToWin: 75,
+  chanceToLose: 15,
+  chanceToBothDie: 10
 };
 
 /*
@@ -23,7 +26,6 @@ class Bear {
     };
 
   }
-
 
   onChangeAge(age) {
 
@@ -57,18 +59,18 @@ class Bear {
 
     let events = [];
 
-    if (Utils.hadChance(10)) {
+    if (Utils.hadChance(config.chanceToBothDie)) {
 
       events.push(
         { type: 'delete', entity: lumberjack },
         { type: 'delete', entity: this }
       );
 
-    } else if (Utils.hadChance(15)) {
+    } else if (Utils.hadChance(config.chanceToLose)) {
 
       events.push({ type: 'delete', entity: this });
 
-    } else if (Utils.hadChance(75)) {
+    } else if (Utils.hadChance(config.chanceToWin)) {
 
       events.push({ type: 'delete', entity: lumberjack });
 

@@ -8,19 +8,23 @@ const config = {
   maxMoves: 3
 };
 
-module.exports = function() {
+class Lumberjack {
 
-  this.type = 'Lumberjack';
+  constructor() {
 
-  this.state = {
-    age: 0,
-    initialAge: 0,
-    lumber: config.lumber,
-    dead: false,
-    moves: 0
-  };
+    this.type = 'Lumberjack';
 
-  this.onChangeAge = (age) => {
+    this.state = {
+      age: 0,
+      initialAge: 0,
+      lumber: config.lumber,
+      dead: false,
+      moves: 0
+    };
+
+  }
+
+  onChangeAge(age) {
 
     let events = [];
 
@@ -44,9 +48,9 @@ module.exports = function() {
 
     return events;
 
-  };
+  }
 
-  this.onEncounterWithTree = (tree) => {
+  onEncounterWithTree(tree) {
 
     let events = [];
 
@@ -75,9 +79,9 @@ module.exports = function() {
 
     return events;
 
-  };
+  }
 
-  this.render = () => {
+  render() {
 
     return (
       <div>
@@ -85,6 +89,8 @@ module.exports = function() {
       </div>
     );
 
-  };
+  }
 
 };
+
+module.exports = Lumberjack;

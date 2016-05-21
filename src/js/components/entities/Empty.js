@@ -2,18 +2,23 @@ const React = require('react');
 const Utils = require('../Utils');
 
 const config = {
+  canBeOverwritten: true
 };
 
 /*
   Entity: Empty tile
  */
-module.exports = function() {
+class Empty {
 
-  this.type = 'Empty';
+  constructor() {
 
-  this.canBeOverwritten = true;
+    this.type = 'Empty';
 
-  this.render = () => {
+    this.canBeOverwritten = config.canBeOverwritten;
+
+  }
+
+  render() {
 
     return (
       <div>
@@ -23,4 +28,6 @@ module.exports = function() {
 
   }
 
-};
+}
+
+module.exports = Empty;
