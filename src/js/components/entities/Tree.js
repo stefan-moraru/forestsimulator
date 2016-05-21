@@ -45,8 +45,7 @@ module.exports = function() {
     this.state.treeType = getTreeType(age);
 
     // A tree has a 10% chance every month to randomly create a new Sapling
-    // TODO: Change back to 10
-    if (this.state.treeType === 'tree' && Utils.hadChance(100)) {
+    if (this.state.treeType === 'tree' && Utils.hadChance(10)) {
 
       events.push({
         type: 'create',

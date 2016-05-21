@@ -58,6 +58,7 @@ class Ecosystem extends React.Component {
     // TODO
     const n = 3;
     const m = 3;
+    const entities = Utils.getEntities();
 
     map.forEach((row, indexRow) => {
 
@@ -70,19 +71,21 @@ class Ecosystem extends React.Component {
 
           if (item.onChangeAge) {
 
-            item.onChangeAge(item.state.age + 1); // TODO
-
             item.onChangeAge(item.state.age + 1).forEach(event => {
 
               // Event handler
+              console.log('Captured event');
+              console.log(event);
 
-              //console.log('Captured event');
-              //console.log(event);
+              // Delete entity
+              if (event.type === 'delete') {
+                map[indexRow][indexColumn] = null;
+
+                map[indexRow][indexColumn] = new entities['Empty'];
+              }
 
               // Create new entity with state
               if (event.type === 'create') {
-
-                const entities = Utils.getEntities();
 
                 const entity = new entities[event.entity];
 
@@ -114,10 +117,6 @@ class Ecosystem extends React.Component {
                   if (x >= 0 && y >= 0 && x < m && y < n) {
 
                   if (added === false && map[x][y] && map[x][y].canBeOverwritten === true) {
-
-                    console.log(indexRow, indexColumn);
-                    console.log('Directia: ', direction.x, direction.y);
-                    console.log('Adaug la ', x, y);
 
                     added = true;
 
@@ -205,7 +204,7 @@ Ecosystem.defaultProps = {
   n: 50,
   m: 70,
   age: 0,
-  ageSpeed: 5000
+  ageSpeed: 300
 };
 
 module.exports = Ecosystem;

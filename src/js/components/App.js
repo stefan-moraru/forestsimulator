@@ -20,12 +20,12 @@ class App extends React.Component {
     ];
 
     const entitiesPercentage1 = [
-      { entity: 'Tree', percentage: 1, state: { age: 10 } }
+      { entity: 'Tree', percentage: 1, state: { age: 120 } }
     ];
 
     const ecosystems = [
       <Ecosystem id='1' n='3' m='3' entitiesPercentage={entitiesPercentage1} />//,
-      //<Ecosystem id='1' n='10' m='10' entitiesPercentage={entitiesPercentage} />
+      //<Ecosystem id='2' n='10' m='10' entitiesPercentage={entitiesPercentage} ageSpeed={10} />
     ];
 
     return (
