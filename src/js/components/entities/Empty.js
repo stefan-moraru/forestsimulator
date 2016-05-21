@@ -11,6 +11,8 @@ module.exports = function() {
 
   this.type = 'Empty';
 
+  this.canBeOverwritten = true;
+
   this.render = () => {
 
     return (

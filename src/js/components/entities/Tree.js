@@ -45,11 +45,12 @@ module.exports = function() {
     this.state.treeType = getTreeType(age);
 
     // A tree has a 10% chance every month to randomly create a new Sapling
-    if (this.state.treeType === 'tree' && Utils.hadChance(10)) {
+    // TODO: Change back to 10
+    if (this.state.treeType === 'tree' && Utils.hadChance(100)) {
 
       events.push({
         type: 'create',
-        entity: 'tree',
+        entity: 'Tree',
         state: {
           age: 0
         }
@@ -66,7 +67,7 @@ module.exports = function() {
 
         events.push({
           type: 'create',
-          entity: 'tree',
+          entity: 'Tree',
           state: {
             age: 0
           }

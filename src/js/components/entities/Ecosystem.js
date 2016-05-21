@@ -55,9 +55,13 @@ class Ecosystem extends React.Component {
 
     const map = this.state.map;
 
-    map.forEach(row => {
+    // TODO
+    const n = 3;
+    const m = 3;
 
-      row.forEach(item => {
+    map.forEach((row, indexRow) => {
+
+      row.forEach((item, indexColumn) => {
 
         /* Progress item */
 
@@ -72,8 +76,59 @@ class Ecosystem extends React.Component {
 
               // Event handler
 
-              console.log('Captured event');
-              console.log(event);
+              //console.log('Captured event');
+              //console.log(event);
+
+              // Create new entity with state
+              if (event.type === 'create') {
+
+                const entities = Utils.getEntities();
+
+                const entity = new entities[event.entity];
+
+                entity.init(event.state);
+
+                // Check neighbours
+                // [indexRow, indexColumn]
+                const directions = [
+                  { x: -1, y: 1 },
+                  { x: 0, y: 1 },
+                  { x: 1, y: 1 },
+
+                  { x: -1, y: 0 },
+                  { x: 0, y: 0 },
+                  { x: 1, y: 0 },
+
+                  { x: -1, y: -1 },
+                  { x: 0, y: -1 },
+                  { x: 1, y: -1 }
+                ];
+
+                let added = false;
+
+                directions.forEach(direction => {
+
+                  const x = indexRow + direction.x;
+                  const y = indexColumn + direction.y;
+
+                  if (x >= 0 && y >= 0 && x < m && y < n) {
+
+                  if (added === false && map[x][y] && map[x][y].canBeOverwritten === true) {
+
+                    console.log(indexRow, indexColumn);
+                    console.log('Directia: ', direction.x, direction.y);
+                    console.log('Adaug la ', x, y);
+
+                    added = true;
+
+                    map[x][y] = entity;
+                  }
+
+                  }
+                });
+
+
+              }
 
             });
 
@@ -150,7 +205,7 @@ Ecosystem.defaultProps = {
   n: 50,
   m: 70,
   age: 0,
-  ageSpeed: 3000
+  ageSpeed: 5000
 };
 
 module.exports = Ecosystem;
