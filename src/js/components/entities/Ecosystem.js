@@ -351,8 +351,8 @@ class Ecosystem extends React.Component {
 }
 
 Ecosystem.defaultProps = Object.assign({}, Utils.getConfigForEntity('Ecosystem'), {
-  n: 50,
-  m: 70,
+  n: 10,
+  m: 10,
   age: 0,
 });
 
