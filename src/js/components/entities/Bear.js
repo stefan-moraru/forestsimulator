@@ -2,20 +2,28 @@ const React = require('react');
 const Utils = require('../Utils');
 
 const config = {
-  lumber: 0,
-  maxMoves: 3
+  maxMoves: 5
 };
 
+/*
+  Entity: Bear
+  They can walk 5 spaces each month
+  They will select one adjacent tile that is adjancent to a tree
+  If no such tile is available, they will move to a free one
+  On encounter with a lumberjack,
+    75% chance to win => kill the lumberjack
+    15% chance to die => bear will be killed,
+    10% chance they both die
+    Lumberjack and Bear turn ends
+ */
 module.exports = function() {
 
-  this.type = 'Lumberjack';
+  this.type = 'Bear';
 
   this.state = {
     age: 0,
     initialAge: 0,
-    lumber: config.lumber,
-    dead: false,
-    moves: 0
+    dead: false
   };
 
   this.onChangeAge = (age) => {
@@ -25,14 +33,8 @@ module.exports = function() {
     this.state.age = age;
     this.state.moves = Utils.random(0, config.maxMoves);
 
-    // Send move event
-    // 8 neighbours
-    // 0 1 2
-    // 3 x 4
-    // 5 6 7
     for (let i = 0; i < config.maxMoves; i++) {
 
-      // TODO: Ignored by the parent
       events.push({
         type: 'move',
         direction: Utils.random(0, 7)
@@ -44,22 +46,7 @@ module.exports = function() {
 
   };
 
-  this.onEncounterWithTree = (tree) => {
-
-    let events = [];
-
-    if (tree.state.treeType !== 'sapling') {
-
-      this.state.lumber += 1;
-
-      events.push({
-        type: 'delete',
-        entity: tree
-      });
-
-    }
-
-    return events;
+  this.onEncounterWithLumberjack = (lumberjack) => {
 
   };
 
@@ -67,10 +54,10 @@ module.exports = function() {
 
     return (
       <div>
-        Lumberjack
+        Bear
       </div>
     );
 
-  };
+  }
 
 };

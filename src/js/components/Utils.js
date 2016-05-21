@@ -25,7 +25,8 @@ const generateMap = (
   // Playground
   const entities = {
     'lumberjack': require('./entities/Lumberjack'),
-    'tree': require('./entities/Tree')
+    'tree': require('./entities/Tree'),
+    'bear': require('./entities/Bear')
   };
 
   const tree = new entities['tree'];
@@ -42,6 +43,7 @@ const generateMap = (
 
   tiles[0][0] = new entities['tree'];
   tiles[0][1] = new entities['lumberjack'];
+  tiles[0][2] = new entities['bear'];
 
   return tiles;
 
@@ -91,7 +93,8 @@ const generateMap = (
 
 const Utils = {
   generateMap: generateMap,
-  hadChance: hadChance
+  hadChance: hadChance,
+  random: _.random
 };
 
 module.exports = Utils;
