@@ -1,11 +1,73 @@
+@font-face {
+  src: url('./OpenSans-CondLight.ttf');
+  font-family: 'OSCondensed';
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
 body {
   background-color: #34495e;
   color: white;
+  font-family: 'OSCondensed';
+}
+
+.home-jumbotron {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 10px;
+  background-size: cover;
+  position: relative;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-size: 80px;
+    position: realtive;
+    z-index: 2;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
 }
 
 .ecosystem {
+  padding: 20px;
+
   .forest {
   }
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 5px;
+  border: 0px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.small {
+  font-size: 20px;
+}
+
+.mb {
+  margin-bottom: 15px;
 }
 
 .row {

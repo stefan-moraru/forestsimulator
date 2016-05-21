@@ -1,6 +1,38 @@
 const React = require('react');
 const _ = require('lodash');
 
+const getConfigForEntity = (entityType) => {
+
+  const configs = {
+    'Tree': {
+      minAgeForTree: 12,
+      minAgeForElder: 120,
+      treeChanceToSpawnSapling: 10,
+      elderChanceToSpawnSapling: 20,
+      elderChanceToDie: 10
+    },
+    'Lumberjack': {
+      lumber: 0,
+      lumberFromTree: 1,
+      lumberFromElder: 3,
+      maxMoves: 3
+    },
+    'Bear': {
+      maxMoves: 5,
+      chanceToWin: 75,
+      chanceToLose: 15,
+      chanceToBothDie: 10
+    },
+    'Ecosystem': {
+      ageSpeed: 300,
+      ageMax: 500
+    }
+  };
+
+  return configs[entityType];
+
+};
+
 const getMoveDirections = () => {
 
   return [
@@ -121,12 +153,30 @@ const generateMap = (n = 50, m = 70, entitiesPercentage = []) => {
 
 };
 
+const getNumberOfTreesFromMap = (map) => {
+
+  let count = 0;
+
+  map.forEach(row => {
+    row.forEach(item => {
+      if (item.type === 'Tree') {
+        count++;
+      }
+    })
+  });
+
+  return count;
+
+};
+
 const Utils = {
   generateMap: generateMap,
   hadChance: hadChance,
   random: _.random,
   getEntities: getEntities,
-  getMoveDirections: getMoveDirections
+  getMoveDirections: getMoveDirections,
+  getConfigForEntity: getConfigForEntity,
+  getNumberOfTreesFromMap: getNumberOfTreesFromMap
 };
 
 module.exports = Utils;

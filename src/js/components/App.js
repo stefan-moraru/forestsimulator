@@ -33,10 +33,11 @@ class App extends React.Component {
     ];
 
     const ecosystemsConfigs = [
-      { n: 3, m: 3, entitiesPercentage: entitiesPercentage1, ageSpeed: 2000, age: 12 },
-      { n: '3', m: '3', entitiesPercentage: entitiesPercentage2 },
-      { n: '10', m: '10', entitiesPercentage: entitiesPercentage3, ageSpeed: 100 },
-      { n: '3', m: '3', entitiesPercentage: entitiesPercentage4, ageSpeed: 2000, age: 12, ageMax: 14 }
+      { title: 'Single Lumberjack', n: 3, m: 3, entitiesPercentage: entitiesPercentage1, ageSpeed: 2000, age: 12 },
+      { title: 'Single tree', n: '3', m: '3', entitiesPercentage: entitiesPercentage2 },
+      { title: 'Dynamic', n: '10', m: '10', entitiesPercentage: entitiesPercentage3, ageSpeed: 100 },
+      { title: 'Bear and Lumberjack', n: '3', m: '3', entitiesPercentage: entitiesPercentage4, ageSpeed: 2000, age: 12, ageMax: 14 },
+      //{ title: 'Dynamic', n: '30', m: '30', entitiesPercentage: entitiesPercentage3, ageSpeed: 100 }
     ];
 
     const ecosystems = ecosystemsConfigs.map((ecosystem, index) => {
@@ -49,8 +50,15 @@ class App extends React.Component {
 
     });
 
+    const style = {
+      'backgroundImage': `url('./images/print.png')`
+    };
+
     return (
       <div>
+        <div className='home-jumbotron' style={style}>
+          <h1>Real-time forest simulator</h1>
+        </div>
         { ecosystems }
       </div>
     );

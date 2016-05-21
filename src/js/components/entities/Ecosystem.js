@@ -1,5 +1,6 @@
 const React = require('react');
 const Utils = require('../Utils');
+const LineChart = require("react-chartjs").Line;
 
 /*
   This is our ecosystem.
@@ -14,7 +15,8 @@ class Ecosystem extends React.Component {
 
     this.state = {
       map: null,
-      age: this.props.age
+      age: this.props.age,
+      ageSpeed: this.props.ageSpeed
     };
 
   }
@@ -37,21 +39,37 @@ class Ecosystem extends React.Component {
       map: map
     });
 
+    this.interval = null;
+
+  }
+
+  setAgeInterval() {
+
+    this.interval = setInterval(() => {
+
+      this.progressAge(this.state.age + 1);
+
+    }, this.state.ageSpeed);
+
+  }
+
+  clearAgeInterval() {
+
+    if (this.interval) {
+      window.clearInterval(this.interval);
+    }
+
   }
 
   componentDidMount() {
 
     this.generateMap();
 
-    setInterval(() => {
+    this.setAgeInterval();
 
-      this.progressAge(this.state.age + 1);
-
-    }, this.props.ageSpeed);
-
-  }
-
-  play() {
+    this.setState({
+      data: { labels: [], datasets: [ Object.assign({}, { data: [] }) ] }
+    });
 
   }
 
@@ -80,7 +98,7 @@ class Ecosystem extends React.Component {
       events.forEach(event => {
         //console.log('Captured event');
         //console.log(event);
-        //
+
         if (!event.type) {
 
           return false;
@@ -89,9 +107,6 @@ class Ecosystem extends React.Component {
 
         // Delete entity
         if (event.type === 'delete') {
-
-          console.log('Delete');
-          console.log(event.entity);
 
           map[event.entity.position.x][event.entity.position.y] = new entities['Empty'];
 
@@ -199,8 +214,15 @@ class Ecosystem extends React.Component {
 
     });
 
+    let stateData = this.state.data.datasets[0].data;
+
+    if (stateData.length > 10) {
+      stateData = stateData.slice(10);
+    }
+
     this.setState({
-      age: age
+      age: age,
+      data: { labels: [], datasets: [ Object.assign({}, { data: [ ...stateData, Utils.getNumberOfTreesFromMap(map) ] }) ] }
     });
 
   }
@@ -233,7 +255,37 @@ class Ecosystem extends React.Component {
 
   }
 
+  hideChart() {
+
+    this.setState({
+      showChart: false
+    });
+
+  }
+
+  showChart() {
+
+    this.setState({
+      showChart: true
+    });
+
+  }
+
+  updateAgeSpeed(event) {
+
+    this.clearAgeInterval();
+
+    this.setState({
+      ageSpeed: event.target.value
+    }, () => {
+      this.setAgeInterval();
+    });
+
+  }
+
   render() {
+
+    var LineChart = require("react-chartjs").Line;
 
     const age = this.state.age;
 
@@ -252,28 +304,56 @@ class Ecosystem extends React.Component {
 
     }
 
+    let chart = null;
+
+    if (this.state.data && this.state.showChart) {
+      chart = (
+        <div>
+          <LineChart data={this.state.data} options={{ responsive: true }} width="600" height="250"/>
+          <button type='button' onClick={this.hideChart.bind(this)}>Hide chart</button>
+        </div>
+      );
+    } else {
+      chart = <button type='button' onClick={this.showChart.bind(this)}>Show Tree chart</button>
+    }
+
+    let title = 'Ecosystem';
+
+    if (this.props.title) {
+      title += `: ${this.props.title}`;
+    }
+
     return (
       <div className='ecosystem'>
-        <h4>Ecosystem (age: {age})</h4>
-        <h5>One month is { this.props.ageSpeed } milliseconds</h5>
-        { stats }
+        <div className='mb'>
+          <h1>{ title } <span className='small'>(age: {age})</span></h1>
+          <h3>One month is { this.state.ageSpeed } milliseconds</h3>
+          { stats }
+        </div>
 
-        <div className='forest'>
+        <div className='forest mb'>
           { forest }
+        </div>
+
+        <div className='slider'>
+          <input type='range' value={this.state.ageSpeed} min={100} max={10000} step={100} onChange={this.updateAgeSpeed.bind(this)} />
+        </div>
+
+        <div className='chart'>
+          { chart }
         </div>
       </div>
     );
+          //{ forest }
 
   }
 
 }
 
-Ecosystem.defaultProps = {
+Ecosystem.defaultProps = Object.assign({}, Utils.getConfigForEntity('Ecosystem'), {
   n: 50,
   m: 70,
   age: 0,
-  ageSpeed: 300,
-  ageMax: 500
-};
+});
 
 module.exports = Ecosystem;

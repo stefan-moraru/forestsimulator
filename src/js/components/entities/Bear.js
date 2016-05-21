@@ -1,12 +1,7 @@
 const React = require('react');
 const Utils = require('../Utils');
 
-const config = {
-  maxMoves: 5,
-  chanceToWin: 75,
-  chanceToLose: 15,
-  chanceToBothDie: 10
-};
+const config = Object.assign({}, Utils.getConfigForEntity('Bear'), {});
 
 /*
   Entity: Bear

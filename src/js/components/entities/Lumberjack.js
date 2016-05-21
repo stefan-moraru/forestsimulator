@@ -1,12 +1,7 @@
 const React = require('react');
 const Utils = require('../Utils');
 
-const config = {
-  lumber: 0,
-  lumberFromTree: 1,
-  lumberFromElder: 3,
-  maxMoves: 3
-};
+const config = Object.assign({}, Utils.getConfigForEntity('Lumberjack'), {});
 
 class Lumberjack {
 

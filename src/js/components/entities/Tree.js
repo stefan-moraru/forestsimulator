@@ -1,13 +1,7 @@
 const React = require('react');
 const Utils = require('../Utils');
 
-const config = {
-  minAgeForTree: 12,
-  minAgeForElder: 120,
-  treeChanceToSpawnSapling: 10,
-  elderChanceToSpawnSapling: 20,
-  elderChanceToDie: 10
-};
+const config = Object.assign({}, Utils.getConfigForEntity('Tree'), {});
 
 const getTreeType = (age) => {
 
