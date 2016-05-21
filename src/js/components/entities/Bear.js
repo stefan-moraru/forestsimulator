@@ -10,22 +10,22 @@ const config = {
   They can walk 5 spaces each month
   They will select one adjacent tile that is adjancent to a tree
   If no such tile is available, they will move to a free one
-  On encounter with a lumberjack,
-    75% chance to win => kill the lumberjack
-    15% chance to die => bear will be killed,
-    10% chance they both die
-    Lumberjack and Bear turn ends
  */
-module.exports = function() {
+class Bear {
 
-  this.type = 'Bear';
+  constructor() {
 
-  this.state = {
-    age: 0,
-    initialAge: 0
-  };
+    this.type = 'Bear';
 
-  this.onChangeAge = (age) => {
+    this.state = {
+      age: 0,
+      initialAge: 0
+    };
+
+  }
+
+
+  onChangeAge(age) {
 
     let events = [];
 
@@ -36,20 +36,49 @@ module.exports = function() {
 
       events.push({
         type: 'move',
-        direction: Utils.random(0, 7)
+        direction: Utils.getMoveDirections()[Utils.random(0, 7)],
+        entity: this
       });
 
     }
 
     return events;
 
-  };
+  }
 
-  this.onEncounterWithLumberjack = (lumberjack) => {
+  onEncounterWithLumberjack(lumberjack) {
 
-  };
+    /*
+      On encounter with a lumberjack,
+      75% chance to win => kill the lumberjack
+      15% chance to die => bear will be killed,
+      10% chance they both die
+    */
 
-  this.render = () => {
+    let events = [];
+
+    if (Utils.hadChance(10)) {
+
+      events.push(
+        { type: 'delete', entity: lumberjack },
+        { type: 'delete', entity: this }
+      );
+
+    } else if (Utils.hadChance(15)) {
+
+      events.push({ type: 'delete', entity: this });
+
+    } else if (Utils.hadChance(75)) {
+
+      events.push({ type: 'delete', entity: lumberjack });
+
+    }
+
+    return events;
+
+  }
+
+  render() {
 
     return (
       <div>
@@ -60,3 +89,5 @@ module.exports = function() {
   }
 
 };
+
+module.exports = Bear;

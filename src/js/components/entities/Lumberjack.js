@@ -3,6 +3,8 @@ const Utils = require('../Utils');
 
 const config = {
   lumber: 0,
+  lumberFromTree: 1,
+  lumberFromElder: 3,
   maxMoves: 3
 };
 
@@ -32,7 +34,6 @@ module.exports = function() {
     // 5 6 7
     for (let i = 0; i < config.maxMoves; i++) {
 
-      // TODO: Ignored by the parent
       events.push({
         type: 'move',
         direction: Utils.getMoveDirections()[Utils.random(0, 7)],
@@ -52,11 +53,11 @@ module.exports = function() {
     if (tree.state.treeType !== 'sapling') {
 
       if (tree.state.treeType === 'tree') {
-        this.state.lumber += 1;
+        this.state.lumber += config.lumberFromTree;
       }
 
       if (tree.state.treeType === 'elder') {
-        this.state.lumber += 3;
+        this.state.lumber += config.lumberFromElder;
       }
 
       events.push({
@@ -66,7 +67,8 @@ module.exports = function() {
 
       events.push({
         type: 'move',
-        direction: { x: tree.position.x, y: tree.position.y }
+        direction: { x: tree.position.x, y: tree.position.y },
+        entity: this
       });
 
     }

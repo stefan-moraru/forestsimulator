@@ -1,15 +1,23 @@
 const React = require('react');
 const Utils = require('../Utils');
 
+const config = {
+  minAgeForTree: 12,
+  minAgeForElder: 120,
+  treeChanceToSpawnSapling: 10,
+  elderChanceToSpawnSapling: 20,
+  elderChanceToDie: 10
+};
+
 const getTreeType = (age) => {
 
   let treeType = '';
 
-  if (age < 12) {
+  if (age < config.minAgeForTree) {
     treeType = 'sapling'
-  } else if (age >= 12 && age < 120) {
+  } else if (age >= config.minAgeForTree && age < config.minAgeForElder) {
     treeType = 'tree';
-  } else if (age >= 120) {
+  } else if (age >= config.minAgeForElder) {
     treeType = 'elder';
   }
 
@@ -17,25 +25,28 @@ const getTreeType = (age) => {
 
 };
 
-module.exports = function() {
+class Tree {
 
-  this.type = 'Tree';
+  constructor() {
 
-  this.state = {
-    age: 0,
-    initialAge: 0,
-    dead: false,
-    treeType: 'sapling'
-  };
+    this.type = 'Tree';
 
-  this.init = (state) => {
+    this.state = {
+      age: 0,
+      initialAge: 0,
+      treeType: 'sapling'
+    };
+
+  }
+
+  init(state) {
 
     this.state.age = state.age;
     this.state.treeType = getTreeType(state.age);
 
-  };
+  }
 
-  this.onChangeAge = (age) => {
+  onChangeAge(age) {
 
     this.state.age = age;
 
@@ -45,7 +56,7 @@ module.exports = function() {
     this.state.treeType = getTreeType(age);
 
     // A tree has a 10% chance every month to randomly create a new Sapling
-    if (this.state.treeType === 'tree' && Utils.hadChance(10)) {
+    if (this.state.treeType === 'tree' && Utils.hadChance(config.treeChanceToSpawnSapling)) {
 
       events.push({
         type: 'create',
@@ -62,7 +73,7 @@ module.exports = function() {
     // 10% chance every year to die
     if (this.state.treeType === 'elder') {
 
-      if (Utils.hadChance(20)) {
+      if (Utils.hadChance(config.elderChanceToSpawnSapling)) {
 
         events.push({
           type: 'create',
@@ -72,9 +83,7 @@ module.exports = function() {
           }
         });
 
-      } else if (Utils.hadChance(10) && (this.state.age - this.state.initialAge) % 12 === 0) {
-
-        this.state.dead = true;
+      } else if (Utils.hadChance(config.elderChanceToDie) && (this.state.age - this.state.initialAge) % 12 === 0) {
 
         events.push({
           type: 'delete',
@@ -88,9 +97,9 @@ module.exports = function() {
     // Return the created array of events
     return events;
 
-  };
+  }
 
-  this.render = () => {
+  render() {
 
     let image = 'tree_small.bmp';
 
@@ -108,6 +117,7 @@ module.exports = function() {
       </div>
     );
 
-  };
-
+  }
 }
+
+module.exports = Tree;

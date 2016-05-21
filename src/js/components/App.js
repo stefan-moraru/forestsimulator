@@ -28,16 +28,26 @@ class App extends React.Component {
     ];
 
     const entitiesPercentage4 = [
-      { entity: 'Bear', percentage: 1 }
+      { entity: 'Bear', percentage: 1 },
+      { entity: 'Lumberjack', percentage: 1 }
     ];
 
-    const ecosystems = [
-      // TODO: Generate ids
-      //<Ecosystem id='1' n='3' m='3' entitiesPercentage={entitiesPercentage1} ageSpeed={2000} age={12} />,
-      //<Ecosystem id='2' n='3' m='3' entitiesPercentage={entitiesPercentage2} />,
-      //<Ecosystem id='3' n='10' m='10' entitiesPercentage={entitiesPercentage3} ageSpeed={10000} />
-      <Ecosystem id='4' n='3' m='3' entitiesPercentage={entitiesPercentage4} ageSpeed={2000} age={12} />,
+    const ecosystemsConfigs = [
+      { n: 3, m: 3, entitiesPercentage: entitiesPercentage1, ageSpeed: 2000, age: 12 },
+      { n: '3', m: '3', entitiesPercentage: entitiesPercentage2 },
+      { n: '10', m: '10', entitiesPercentage: entitiesPercentage3, ageSpeed: 100 },
+      { n: '3', m: '3', entitiesPercentage: entitiesPercentage4, ageSpeed: 2000, age: 12, ageMax: 14 }
     ];
+
+    const ecosystems = ecosystemsConfigs.map((ecosystem, index) => {
+
+      const props = Object.assign({}, {
+        id: index,
+      }, ecosystem);
+
+      return <Ecosystem {...props} />;
+
+    });
 
     return (
       <div>

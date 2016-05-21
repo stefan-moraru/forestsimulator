@@ -63,6 +63,10 @@ class Ecosystem extends React.Component {
       Big function, will handle all logic => TODO refactoring
     */
 
+    if (age > this.props.ageMax) {
+      return false;
+    }
+
     const map = this.state.map;
 
     // TODO
@@ -76,6 +80,12 @@ class Ecosystem extends React.Component {
       events.forEach(event => {
         //console.log('Captured event');
         //console.log(event);
+        //
+        if (!event.type) {
+
+          return false;
+
+        }
 
         // Delete entity
         if (event.type === 'delete') {
@@ -112,11 +122,17 @@ class Ecosystem extends React.Component {
 
             } else {
 
+              // Encounter
               // Current entity = item
-              const eventType = `onEncounterWith${nextEntity.type}`;
+              const eventTypeA = `onEncounterWith${nextEntity.type}`;
+              const eventTypeB = `onEncounterWith${item.type}`;
 
-              if (item[eventType]) {
-                handleEvents(item[eventType](nextEntity), indexRow, indexColumn, item);
+              if (item[eventTypeA]) {
+                handleEvents(item[eventTypeA](nextEntity), indexRow, indexColumn, item);
+              }
+
+              if (nextEntity[eventTypeB]) {
+                handleEvents(nextEntity[eventTypeB](item), indexRow, indexColumn, nextEntity);
               }
 
             }
@@ -222,6 +238,7 @@ class Ecosystem extends React.Component {
     const age = this.state.age;
 
     let forest = null;
+    let stats = null;
 
     if (this.state.map) {
 
@@ -229,10 +246,17 @@ class Ecosystem extends React.Component {
 
     }
 
+    if (this.state.age >= this.props.ageMax) {
+
+      stats = <h5>Finished simulation for this ecosystem</h5>;
+
+    }
+
     return (
       <div className='ecosystem'>
         <h4>Ecosystem (age: {age})</h4>
         <h5>One month is { this.props.ageSpeed } milliseconds</h5>
+        { stats }
 
         <div className='forest'>
           { forest }
@@ -248,7 +272,8 @@ Ecosystem.defaultProps = {
   n: 50,
   m: 70,
   age: 0,
-  ageSpeed: 300
+  ageSpeed: 300,
+  ageMax: 500
 };
 
 module.exports = Ecosystem;
