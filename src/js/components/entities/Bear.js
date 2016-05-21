@@ -69,6 +69,10 @@ class Bear {
 
       events.push({ type: 'delete', entity: lumberjack });
 
+    } else {
+
+      events.push({ type: 'delete', entity: this });
+
     }
 
     return events;

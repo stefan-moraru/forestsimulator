@@ -16,8 +16,13 @@ class Ecosystem extends React.Component {
     this.state = {
       map: null,
       age: this.props.age,
-      ageSpeed: this.props.ageSpeed
+      ageSpeed: this.props.ageSpeed,
+      showEvents: false,
     };
+
+    this.events = [];
+
+    this.stateForEntity = null;
 
   }
 
@@ -98,6 +103,10 @@ class Ecosystem extends React.Component {
       events.forEach(event => {
         //console.log('Captured event');
         //console.log(event);
+        //
+        event.timestamp = new Date().getTime();
+
+        this.events.push(event);
 
         if (!event.type) {
 
@@ -235,7 +244,7 @@ class Ecosystem extends React.Component {
 
         return (
           <div className='column' key={`ecosystem-row-${index}-${index2}`}>
-            <div className='entity'>
+            <div className='entity' onClick={this.setStateForEntity.bind(this, item)}>
               { item.render() }
             </div>
           </div>
@@ -271,6 +280,22 @@ class Ecosystem extends React.Component {
 
   }
 
+  hideEvents() {
+
+    this.setState({
+      showEvents: false
+    });
+
+  }
+
+  showEvents() {
+
+    this.setState({
+      showEvents: true
+    });
+
+  }
+
   updateAgeSpeed(event) {
 
     this.clearAgeInterval();
@@ -280,6 +305,12 @@ class Ecosystem extends React.Component {
     }, () => {
       this.setAgeInterval();
     });
+
+  }
+
+  setStateForEntity(item) {
+
+    this.stateForEntity = item;
 
   }
 
@@ -317,10 +348,62 @@ class Ecosystem extends React.Component {
       chart = <button type='button' onClick={this.showChart.bind(this)}>Show Tree chart</button>
     }
 
+    let events = null;
+
+    if (this.state.showEvents) {
+      const eventsRendered = this.events.slice(10).reverse().map(item => {
+        return (
+          <tr>
+            <td>{ item.timestamp }</td>
+            <td>{ item.type }</td>
+            <td>{ item.entity.type }</td>
+          </tr>
+        );
+      });
+
+      events = (
+        <div>
+          <div className='events'>
+            <button className='mb' type='button' onClick={this.hideEvents.bind(this)}>Hide events</button>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Action</th>
+                  <th>Entity</th>
+                </tr>
+              </thead>
+              <tbody>
+                { eventsRendered }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    } else {
+      events = (
+        <div>
+          <button type='button' onClick={this.showEvents.bind(this)}>Show events</button>
+        </div>
+      );
+    }
+
     let title = 'Ecosystem';
 
     if (this.props.title) {
       title += `: ${this.props.title}`;
+    }
+
+    let state = null;
+
+    if (this.stateForEntity) {
+      state = (
+        <div className='mb'>
+          <h4>Details about the entity</h4>
+          { JSON.stringify(this.stateForEntity) }
+        </div>
+      )
     }
 
     return (
@@ -335,12 +418,23 @@ class Ecosystem extends React.Component {
           { forest }
         </div>
 
+        <div className='state'>
+          { state }
+        </div>
+
         <div className='slider'>
+          <h4>
+            Ecosystem speed
+          </h4>
           <input type='range' value={this.state.ageSpeed} min={100} max={10000} step={100} onChange={this.updateAgeSpeed.bind(this)} />
         </div>
 
         <div className='chart'>
           { chart }
+        </div>
+
+        <div className='events'>
+          { events }
         </div>
       </div>
     );
