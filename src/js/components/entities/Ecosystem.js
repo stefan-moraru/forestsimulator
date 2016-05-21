@@ -21,7 +21,17 @@ class Ecosystem extends React.Component {
 
   generateMap() {
 
-    const map = Utils.generateMap(this.props.n, this.props.m, this.props.entitiesPercentage);
+    const percentages = this.props.entitiesPercentage.map(item => {
+
+      item.state = {
+        age: this.props.age
+      };
+
+      return item;
+
+    });
+
+    const map = Utils.generateMap(this.props.n, this.props.m, percentages);
 
     this.setState({
       map: map
@@ -69,9 +79,12 @@ class Ecosystem extends React.Component {
 
         // Delete entity
         if (event.type === 'delete') {
-          map[indexRow][indexColumn] = null;
 
-          map[indexRow][indexColumn] = new entities['Empty'];
+          console.log('Delete');
+          console.log(event.entity);
+
+          map[event.entity.position.x][event.entity.position.y] = new entities['Empty'];
+
         }
 
         // Move entity
@@ -86,12 +99,26 @@ class Ecosystem extends React.Component {
             // Get entity from the new position
             const nextEntity = map[x][y];
 
-            // Current entity = item
-            const eventType = `onEncounterWith${nextEntity.type}`;
-              console.log('Will check ', eventType);
+            if (nextEntity.type === 'Empty') {
 
-            if (item[eventType]) {
-              handleEvents(item[eventType](), indexRow, indexColumn, item);
+              map[event.entity.position.x][event.entity.position.y] = new entities['Empty'];
+
+              map[x][y] = event.entity;
+
+              event.entity.position = {
+                x: x,
+                y: y
+              };
+
+            } else {
+
+              // Current entity = item
+              const eventType = `onEncounterWith${nextEntity.type}`;
+
+              if (item[eventType]) {
+                handleEvents(item[eventType](nextEntity), indexRow, indexColumn, item);
+              }
+
             }
 
           }
@@ -118,12 +145,14 @@ class Ecosystem extends React.Component {
 
             if (x >= 0 && y >= 0 && x < m && y < n) {
 
-            if (added === false && map[x][y] && map[x][y].canBeOverwritten === true) {
+              if (added === false && map[x][y] && map[x][y].canBeOverwritten === true) {
 
-              added = true;
+                added = true;
 
-              map[x][y] = entity;
-            }
+                entity.position = { x: x, y: y };
+
+                map[x][y] = entity;
+              }
 
             }
           });

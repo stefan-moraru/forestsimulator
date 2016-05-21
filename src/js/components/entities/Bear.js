@@ -22,8 +22,7 @@ module.exports = function() {
 
   this.state = {
     age: 0,
-    initialAge: 0,
-    dead: false
+    initialAge: 0
   };
 
   this.onChangeAge = (age) => {

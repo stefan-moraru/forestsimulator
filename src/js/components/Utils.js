@@ -58,17 +58,7 @@ const hadChance = (chance = 10) => { // Default: 10 percent chance
  */
 const generateMap = (n = 50, m = 70, entitiesPercentage = []) => {
 
-  // Playground
-  //
   const entities = getEntities();
-  /*
-
-  const tree = new entities['tree'];
-
-  console.log(tree.onChangeAge(15));
-
-
-  */
 
   const tileCount = n * m;
 
@@ -80,18 +70,6 @@ const generateMap = (n = 50, m = 70, entitiesPercentage = []) => {
     tiles[i] = [];
   }
 
-  tiles[0][0] = new entities['Tree'];
-  tiles[0][1] = new entities['Empty'];
-  tiles[0][2] = new entities['Empty'];
-  tiles[1][0] = new entities['Empty'];
-  tiles[1][1] = new entities['Lumberjack'];
-  tiles[1][2] = new entities['Empty'];
-  tiles[2][0] = new entities['Empty'];
-  tiles[2][1] = new entities['Empty'];
-  tiles[2][2] = new entities['Empty'];
-
-  return tiles;
-
   let pool = [];
 
   entitiesPercentage.forEach(entity => {
@@ -100,7 +78,7 @@ const generateMap = (n = 50, m = 70, entitiesPercentage = []) => {
 
       const e = new entities[entity.entity];
 
-      if (entity.state) {
+      if (entity.state && e.init) {
         e.init(entity.state);
       }
 
@@ -130,6 +108,9 @@ const generateMap = (n = 50, m = 70, entitiesPercentage = []) => {
 
   for (i = 0; i < n; i++) {
     for (j = 0; j < m; j++) {
+
+      pool[ind].entity.position = { x: i, y: j };
+
       tiles[i][j] = pool[ind].entity;
 
       ind++;

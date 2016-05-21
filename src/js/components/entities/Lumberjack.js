@@ -35,7 +35,8 @@ module.exports = function() {
       // TODO: Ignored by the parent
       events.push({
         type: 'move',
-        direction: Utils.getMoveDirections()[Utils.random(0, 7)]
+        direction: Utils.getMoveDirections()[Utils.random(0, 7)],
+        entity: this
       });
 
     }
@@ -50,11 +51,22 @@ module.exports = function() {
 
     if (tree.state.treeType !== 'sapling') {
 
-      this.state.lumber += 1;
+      if (tree.state.treeType === 'tree') {
+        this.state.lumber += 1;
+      }
+
+      if (tree.state.treeType === 'elder') {
+        this.state.lumber += 3;
+      }
 
       events.push({
         type: 'delete',
         entity: tree
+      });
+
+      events.push({
+        type: 'move',
+        direction: { x: tree.position.x, y: tree.position.y }
       });
 
     }

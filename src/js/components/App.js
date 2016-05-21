@@ -27,11 +27,16 @@ class App extends React.Component {
       { entity: 'Bear', percentage: 4 }
     ];
 
+    const entitiesPercentage4 = [
+      { entity: 'Bear', percentage: 1 }
+    ];
+
     const ecosystems = [
       // TODO: Generate ids
-      <Ecosystem id='1' n='3' m='3' entitiesPercentage={entitiesPercentage1} ageSpeed={3000} />,
+      //<Ecosystem id='1' n='3' m='3' entitiesPercentage={entitiesPercentage1} ageSpeed={2000} age={12} />,
       //<Ecosystem id='2' n='3' m='3' entitiesPercentage={entitiesPercentage2} />,
       //<Ecosystem id='3' n='10' m='10' entitiesPercentage={entitiesPercentage3} ageSpeed={10000} />
+      <Ecosystem id='4' n='3' m='3' entitiesPercentage={entitiesPercentage4} ageSpeed={2000} age={12} />,
     ];
 
     return (
