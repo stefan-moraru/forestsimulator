@@ -1,6 +1,18 @@
 const React = require('react');
 const _ = require('lodash');
 
+const getEntities = () => {
+
+    return {
+      'Empty': require('./entities/Empty'),
+      'Tree': require('./entities/Tree'),
+      'Lumberjack': require('./entities/Lumberjack'),
+      'Bear': require('./entities/Bear'),
+      'NewEntity': require('./entities/NewEntity')
+    };
+
+};
+
 const getConfigForEntity = (entityType) => {
 
   const configs = {
@@ -47,17 +59,6 @@ const getMoveDirections = () => {
     { x: 0, y: -1 },
     { x: 1, y: -1 }
   ];
-
-};
-
-const getEntities = () => {
-
-    return {
-      'Empty': require('./entities/Empty'),
-      'Tree': require('./entities/Tree'),
-      'Lumberjack': require('./entities/Lumberjack'),
-      'Bear': require('./entities/Bear')
-    };
 
 };
 
