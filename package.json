@@ -1,0 +1,44 @@
+{
+  "name": "itmarathon",
+  "version": "1.0.0",
+  "description": "Project created for the ITMarathon contest",
+  "main": "src/js/index.js",
+  "scripts": {
+    "start": "./node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron .",
+    "watch": "./node_modules/.bin/webpack-dev-server",
+    "electron-rebuild": "./node_modules/.bin/electron-rebuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/stefan-moraru/itmarathon.git"
+  },
+  "keywords": [
+    "itmarathon"
+  ],
+  "author": "Stefan Moraru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stefan-moraru/itmarathon/issues"
+  },
+  "homepage": "https://github.com/stefan-moraru/itmarathon#readme",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-react": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "electron-build": "0.0.3",
+    "electron-packager": "^7.0.2",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "node-libs-browser": "^1.0.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "electron-prebuilt": "^1.1.1",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
+  }
+}
